@@ -15,3 +15,5 @@ Struktur:
 - editor.js : fitur editor, simpan, unduh, dan buat link
 
 Catatan: file hasil unduhan/tautan galeri tetap dibuat sebagai HTML mandiri agar bisa dibuka tanpa folder aset. Karena fitur ekspor mengambil file CSS/JS, gunakan melalui server (misalnya Vercel atau localhost), bukan membuka index.html langsung dengan file://.
+
+Dibuat oleh Adnan. Dukungan: https://sociabuzz.com/m_adnan/support
