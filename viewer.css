@@ -422,3 +422,20 @@ html,body{height:100%;margin:0;background:#050507}#app{position:relative;height:
 .dnc em{display:block;margin-top:4cqw;font:italic 500 3cqw 'Poppins',system-ui,sans-serif;opacity:.65}
 .dnq{position:absolute;top:2.5cqw;right:3cqw;width:8cqw;height:8cqw;border:0;border-radius:50%;background:#ffffff26;color:#fff;font-size:5cqw;line-height:1;cursor:pointer}
 @media(prefers-reduced-motion:reduce){.dnb::after,.dnc::after{animation:none}}
+
+/* ===== kamera zoom & web ===== */
+.vid{transform:scaleX(-1) scale(var(--z,1))}.vid.bk{transform:scale(var(--z,1))}
+.cm2{touch-action:none}
+.zmb{position:absolute;left:0;right:0;bottom:30cqw;z-index:5;display:grid;justify-items:center;gap:1.2cqw;pointer-events:none}
+.zmb>*{pointer-events:auto}
+.zlv{display:flex;gap:1.6cqw;padding:1.2cqw;border-radius:99px;background:#0006;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.zlv button{min-width:9cqw;height:9cqw;border:0;border-radius:99px;background:none;color:#fff;font:600 3.2cqw 'Poppins',sans-serif;cursor:pointer;transition:background .2s,color .2s}
+.zlv button.on{background:#ffd60a;color:#000}
+.zsl{width:62cqw;accent-color:#ffd60a}
+.zmb small{color:#fff;font-size:3cqw;text-shadow:0 0 2cqw #000}
+.wnote{padding:2cqw 4cqw;background:#3a2a00;color:#ffd9a0;font-size:3.1cqw;text-align:center}
+
+/* ukuran foto custom */
+.kb,.cd img,.si img,.gi img,.ff img,.plf img{object-fit:var(--fit,cover)}
+.kb{scale:var(--zm,1)}
+.cd img,.si img,.gi img,.ff img{scale:var(--zm,1)}

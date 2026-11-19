@@ -13,7 +13,7 @@ const wrap=opt.wrap||APP;
 const isEd=()=>!!(opt.editing&&opt.editing());
 let i=0,ci=0,T=0,AS=0,AC=null,MT=0,mi=0,muted=false,opened=false,play=false,forceEnd=false,pre=false,L=[],SL=[];
 const q=s=>ST.querySelector(s);
-let MK='',VOL=1,CAM=null,AUD=null,CT=0,CI=0,MP=false,shots=[];
+let MK='',VOL=1,CAM=null,ZH=null,ZC=1,ZD=0,CTR=null,WD=null,AUD=null,CT=0,CI=0,MP=false,shots=[];
 const SW={ticket:[.6,.8,.42,'↘'],lock:[0,-1,.4,''],curtain:[1,0,.35,'↔'],letter:[0,-1,.35,'↑'],gift:[0,-1,.3,'↑'],polaroid:[0,-1,.35,'↑'],vinyl:[1,0,.4,'→'],night:[1,-1,.4,'↗'],heart:[0,-1,.35,'↑'],web:[0,1,.3,'↓'],chat:[1,0,.3,'→'],neon:[0,-1,.35,'↑'],glass:[0,-1,.3,'↑'],book:[-1,0,.4,'←'],balon:[0,-1,.4,'↑'],gembok:[1,0,.55,'']};
 let dg=null,dgd=0,sw0=null,swd=0,fd=1;
 const man=()=>S.cvs==='chat'||S.cvs==='tebak'||(S.cvs==='gembok'&&/\d/.test(S.pin||''));
@@ -33,11 +33,11 @@ const sp=(t,d,tw,st)=>{let k=0;const step=st||(tw?.035:.05);return `<span class=
 const wd=t=>esc(t).split(' ').map((w,k)=>`<span class=wd style="animation-delay:${(.5+k*.12).toFixed(2)}s">${w}</span>`).join(' ');
 function count(el){const n=+el.dataset.n;let t0=0;if(ST.classList.contains('still')||!n)return;(function f(t){t0=t0||t;const p=Math.min(1,(t-t0)/1600);el.textContent=Math.round(n*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(f)})(performance.now())}
 function burst(n){if(S.bst!=='on')return;const b=document.createElement('div'),ch=(FXM[S.fx]||['♥'])[0];let h='';b.className='bsl';for(let k=0;k<n;k++){const a=k/n*6.283+k%3,r=40+(k*13)%60;h+=`<span class=bs style="--dx:${(Math.cos(a)*r).toFixed(1)}cqw;--dy:${(Math.sin(a)*r*1.3-20).toFixed(1)}cqw;--r:${(k*67)%360}deg;font-size:${4+(k*5)%7}cqw;animation-delay:${k%4*.05}s">${ch}</span>`}b.innerHTML=h;ST.appendChild(b);setTimeout(()=>b.remove(),2200)}
-function cnt(){if(!S.date)return'';const d=Math.round((Date.now()-new Date(S.date))/864e5);return '<div class=cnt>'+(d>=0?`💞 <span data-n=${d}>${d}</span> ${esc(S.dl||'hari bersama')}`:`⏳ <span data-n=${-d}>${-d}</span> hari lagi`)+'</div>'}
+function cnt(){if(!S.date)return'';const d=Math.round((Date.now()-new Date(S.date))/864e5);return '<div class=cnt>'+(d>=0?`<span data-n=${d}>${d}</span> ${esc(S.dl||'hari bersama')}`:`<span data-n=${-d}>${-d}</span> hari lagi`)+'</div>'}
 const DON='https://sociabuzz.com/m_adnan/support';
 const toN=()=>String(S.to||'').trim(),frN=()=>String(S.from||'').trim(),who=()=>frN()||S.title;
 const ft=()=>(frN()||toN())?`<div class=cnt>${frN()?'dari '+esc(frN()):''}${frN()&&toN()?' · ':''}${toN()?'untuk '+esc(toN()):''}</div> `:'';
-const dnH=()=>`<button class=dnb data-i=dn><b>♡</b> Dukung</button><div class=dnm data-i=dnx><div class=dnc data-i=dnk><button class=dnq data-i=dnx aria-label="Tutup">×</button><small>dari yang bikin</small><h3>Traktir Adnan kopi</h3><p>Galeri ini gratis dan dibuat sendiri. Kalau kamu suka, dukungan kecil bakal bantu aku terus ngembangin dan nambah fitur baru.</p><a class=dna data-i=dnl href="${DON}" target=_blank rel="noopener noreferrer">Dukung lewat Sociabuzz</a><em>made by adnan</em></div></div>`;
+const dnH=()=>`<button class=dnb data-i=dn>Dukung</button><div class=dnm data-i=dnx><div class=dnc data-i=dnk><button class=dnq data-i=dnx aria-label="Tutup">×</button><small>dari yang bikin</small><h3>Traktir Adnan kopi</h3><p>Gratis dan dibuat sendiri. Dukungan kecil bantu aku terus update.</p><a class=dna data-i=dnl href="${DON}" target=_blank rel="noopener noreferrer">Dukung lewat Sociabuzz</a><em>made by adnan</em></div></div>`;
 const hd=()=>`<h1>${sp(S.title,.2)}</h1>`+(S.sub?`<div class=cnt>${esc(S.sub)}</div> `:'')+ft()+cnt();
 const urlOf=()=>'https://'+(String(S.title||'kita').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')||'kita')+'.love';
 
@@ -114,7 +114,7 @@ function initSc(c){const sc=c.querySelector('.sc'),bar=c.querySelector('.sbar u'
 function place(){const n=L.length,j=i%n;ST.querySelectorAll('.cd').forEach((el,k)=>{const p=(k-j+n)%n,r=((k*47)%11-5);el.style.zIndex=n-p;el.style.opacity=p>3?0:1;el.style.transform=`translate(${p*2.5}cqw,${-p*2}cqw) rotate(${r+p*2}deg) scale(${1-p*.05})`})}
 
 function paint(){phClean();
- const t=S.t,v={'--sb':t.bg,'--sb2':t.bg2,'--si':t.ink,'--sa':t.ac,'--f':F[S.font]||F.script,'--lv':S.level/100,'--sec':S.sec+'s','--flt':FL[S.flt]||'none'};
+ const t=S.t,v={'--sb':t.bg,'--sb2':t.bg2,'--si':t.ink,'--sa':t.ac,'--f':F[S.font]||F.script,'--lv':S.level/100,'--sec':S.sec+'s','--flt':FL[S.flt]||'none','--fit':S.fit==='contain'?'contain':'cover','--zm':(S.zm||100)/100};
  for(const k in v)APP.style.setProperty(k,v[k]);
  ST.className='stage fr-'+S.frm;
  L=S.photos.slice(0,S.max);SL=L.concat([{end:1}]);
@@ -154,7 +154,10 @@ const DOCK=['tel','web','cam','mus'],TR=[['box','Music Box'],['soft','Lembut'],[
 const appsOn=()=>(S.apps&&S.apps.length?Object.keys(APPS).filter(k=>S.apps.includes(k)):Object.keys(APPS));
 const lpg=m=>{const w=String(m||'').split(/\s+/).filter(Boolean),P=[];let c='';w.forEach(x=>{if((c+' '+x).length>150&&c){P.push(c);c=x}else c=c?c+' '+x:x});if(c)P.push(c);return P.length?P:['']};
 const lpap=k=>{const PG=lpg(S.msg),last=k>=PG.length-1,e1=.6+PG[k].length*.04;return `<p class=to>${sp(k?'…lanjutan':(toN()?'Untuk '+toN()+',':'Untukmu,'),.3,1,.06)}</p><p class=bd>${sp(PG[k],.9,1,.04)}</p>`+(last?`<p class=sg>${sp('— '+who(),e1+.9,1,.06)}</p>${cnt()}<i class=seal style="animation-delay:${(e1+1.8).toFixed(2)}s">♥</i>`:`<button class=nxp data-i=lp>Lembar berikutnya ›</button><small class=pgn>${k+1}/${PG.length}</small>`)};
-const normU=v=>{v=String(v||'').trim();if(!v)return'';if(/^https?:\/\//i.test(v))return v;if(/^[^\s]+\.[a-z]{2,}/i.test(v))return 'https://'+v;return 'https://id.wikipedia.org/w/index.php?search='+encodeURIComponent(v)};
+const normU=v=>{v=String(v||'').trim();if(!v)return'';if(/^(https?:)?\/\//i.test(v))v=v.replace(/^\/\//,'https://');else if(/^[^\s\/]+\.[a-z]{2,}([\/:?#]|$)/i.test(v)||/^localhost[:\/]/i.test(v))v='https://'+v;else return 'https://id.wikipedia.org/w/index.php?search='+encodeURIComponent(v);
+ const m=v.match(/^https?:\/\/(?:www\.|m\.)?(?:youtube\.com\/(?:watch\?(?:[^#]*&)?v=|shorts\/|live\/)|youtu\.be\/)([\w-]{6,})/i);if(m)return 'https://www.youtube.com/embed/'+m[1];
+ const g=v.match(/^https?:\/\/(?:www\.)?google\.[a-z.]+\/search\?(?:[^#]*&)?q=([^&#]+)/i);if(g)return 'https://id.wikipedia.org/w/index.php?search='+g[1];return v};
+const BLK=/^https?:\/\/([\w-]+\.)*(google|facebook|instagram|twitter|x|tiktok|whatsapp|netflix|spotify|linkedin|github|reddit|pinterest|discord|telegram|t|bing|duckduckgo|tokopedia|shopee|gmail|outlook|live|microsoft|apple|amazon|paypal|openai|chatgpt|claude|anthropic)\.(com|co|me|org|net|ai|id|be)(\/|$|:|\?)/i;
 const rd=(f,cb)=>{const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,900/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);cb(c.toDataURL('image/jpeg',.8))};im.src=r.result};r.readAsDataURL(f)};
 const cb=k=>{const B=bubs();return k<B.length?`<div class=bu style="--d:0s" data-i=rx>${esc(B[k])}</div>`:`<div class="bu ac" style="--d:0s" data-i=rx>— ${esc(who())}</div>`};
 const wnav=k=>`<div class=nv><b>♥ ${esc(S.title)}</b><span>${wps().map((_,j)=>`<a class="${j==k?'on':''}" data-i=wg data-k=${j}>${pt(j)}</a>`).join('')}</span></div>`;
@@ -167,26 +170,45 @@ const allPh=()=>L.concat(shots.map(src=>({src,cap:'📷'})));
 const appHtml=k=>{const P=APPS[k],hd=`<div class=aph style="background:${P[2]}"><span data-i=ho>‹</span>${P[0]} ${P[1]}</div>`,dd=S.date?Math.round((Date.now()-new Date(S.date))/864e5):null;
  if(k==='tel')return hd+`<div class="apb tl"><div class=nm data-v="">&nbsp;</div><div class=kp2>${[1,2,3,4,5,6,7,8,9,'*',0,'#'].map(x=>`<button data-i=dk data-k="${x}">${x}</button>`).join('')}</div><div class=cr2><button class=call data-i=cl>📞</button><button class=del data-i=dd>⌫</button></div><div class=ctc data-i=cl data-c=1><i>♥</i><span>${esc(who())}</span><small>favorit</small></div></div>`;
  if(k==='msg')return hd+`<div class=apb>${bubs().map((x,n)=>`<div class=bu style="--d:${(.3+n*.9).toFixed(2)}s">${esc(x)}</div>`).join('')}<div class="bu ac" style="--d:${(.3+bubs().length*.9).toFixed(2)}s">— ${esc(who())}</div></div><div class=cin2><input class=cti2 type=text maxlength=200 placeholder="Ketik pesan…"><button class=snd2 data-i=ms>➤</button></div>`;
- if(k==='cam')return hd+`<div class="apb cm2"><video class=vid autoplay playsinline muted></video><div class=cmm>Mengaktifkan kamera…</div><div class=fl2x></div><label class="abt cfb">📷 Pakai kamera bawaan<input class=cmi type=file accept="image/*" capture="environment" hidden></label><div class=shr><div class=tn>${shots.length?`<img src="${shots[shots.length-1]}">`:''}</div><button class=sht data-i=sh></button><button class=flp data-i=fp>⟲</button></div></div>`;
+ if(k==='cam')return hd+`<div class="apb cm2"><video class=vid autoplay playsinline muted></video><div class=cmm>Mengaktifkan kamera…</div><div class=fl2x></div><div class=zmb></div><label class="abt cfb">📷 Pakai kamera bawaan<input class=cmi type=file accept="image/*" capture="environment" hidden></label><div class=shr><div class=tn>${shots.length?`<img src="${shots[shots.length-1]}">`:''}</div><button class=sht data-i=sh></button><button class=flp data-i=fp>⟲</button></div></div>`;
  if(k==='gal'){const A=allPh();return hd+`<div class="apb gg">${A.length?A.map((p,n)=>`<figure data-i=zm style="--d:${(n*.06).toFixed(2)}s"><img src="${p.src}"><figcaption>${esc(p.cap)}</figcaption></figure>`).join(''):'<p class=msg>Belum ada foto.</p>'}</div>`}
  if(k==='mus')return hd+`<div class="apb ms2"><div class=disc>♥</div><div class=np>Pilih lagu</div><div class=eq><i></i><i></i><i></i><i></i><i></i></div><div class=mc><button data-i=pv>⏮</button><button class=pp data-i=pp>▶</button><button data-i=nx>⏭</button></div>${TR.map(t=>`<button class=tr data-i=tr data-k=${t[0]}>${t[1]}<span>♪</span></button>`).join('')}<label class=abt>＋ Putar lagu dari ponsel<input class=aui type=file accept="audio/*" hidden></label></div>`;
- if(k==='web'){const u=normU(S.url)||'https://id.wikipedia.org';return hd+`<div class="apb wb"><div class=ab2><input class=url type=text value="${esc(u)}"><button class=abt data-i=wgo>Buka</button></div><div class=bk2>${[['Wikipedia','https://id.wikipedia.org'],['Peta','https://www.openstreetmap.org/export/embed.html'],['Cuaca','https://wttr.in']].map(x=>`<button data-i=wbk data-u="${x[1]}">${x[0]}</button>`).join('')}</div><iframe class=fr src="${esc(u)}" sandbox="allow-scripts allow-same-origin allow-forms allow-popups" referrerpolicy="no-referrer"></iframe><a class="abt ext" target=_blank rel=noopener href="${esc(u)}">↗ Buka di tab baru</a></div>`}
+ if(k==='web'){const u=normU(S.url)||'https://id.wikipedia.org';return hd+`<div class="apb wb"><div class=ab2><input class=url type=text value="${esc(u)}"><button class=abt data-i=wgo>Buka</button></div><div class=bk2>${[['Wikipedia','https://id.wikipedia.org'],['Peta','https://www.openstreetmap.org/export/embed.html'],['Cuaca','https://wttr.in'],['YouTube','https://www.youtube.com/embed?listType=search&list=lagu+romantis'],['Google','https://www.google.com'],['Instagram','https://www.instagram.com'],['TikTok','https://www.tiktok.com']].map(x=>`<button data-i=wbk data-u="${x[1]}">${x[0]}</button>`).join('')}</div><iframe class=fr src="${esc(u)}" allow="fullscreen; autoplay; encrypted-media; picture-in-picture; clipboard-write; geolocation; microphone; camera" allowfullscreen sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-popups-to-escape-sandbox allow-modals allow-downloads allow-presentation allow-top-navigation-by-user-activation" referrerpolicy="no-referrer"></iframe><div class=wnote hidden></div><a class="abt ext" target=_blank rel=noopener href="${esc(u)}">↗ Buka di tab baru (kalau halaman kosong)</a></div>`}
  if(k==='note')return hd+`<div class=apb><textarea class=nt placeholder="Tulis catatanmu di sini…"></textarea>${L.filter(p=>p.cap).slice(0,5).map((p,n)=>`<label class=ck style="--d:${(.3+n*.2).toFixed(2)}s" data-i=ck><i>✓</i>${esc(p.cap)}</label>`).join('')}</div>`;
  if(k==='set'){const A=allPh().slice(0,8);return hd+`<div class="apb st"><label>🔊 Volume<input type=range min=0 max=100 value=${Math.round(VOL*100)} data-i=sv></label><label>🔇 Bisukan suara<input type=checkbox data-i=sm ${muted?'checked':''}></label><label>☀ Kecerahan<input type=range min=40 max=100 value=100 data-i=sb></label><label>🌙 Mode terang<input type=checkbox data-i=sl></label><small>Wallpaper</small><div class=wl><button data-i=wp2 data-k=-1></button>${A.map((p,n)=>`<button data-i=wp2 data-k=${n} style="background-image:url('${p.src}')"></button>`).join('')}</div><button class=abt data-i=vb>📳 Tes getar</button></div>`}
  const d=new Date();return hd+`<div class=apb><div class=cmw data-y=${d.getFullYear()} data-m=${d.getMonth()}>${calH(d.getFullYear(),d.getMonth())}</div>${dd===null?'':`<div class=big data-n="${Math.abs(dd)}">${Math.abs(dd)}</div><p class=msg>${dd>=0?esc(S.dl||'hari bersama'):'hari lagi'} ♥</p>`}</div>`};
-function stopCam(){if(CAM){CAM.getTracks().forEach(t=>t.stop());CAM=null}}
+function camStartW(f,id){const w=WD,v=f.querySelector('.vid');v.classList.add('bk');if(w)w.on=!!id;camStart(f,'environment',id||undefined);if(w){WD=w;w.on=!!id}}
+function stopCam(){if(CAM){CAM.getTracks().forEach(t=>t.stop());CAM=null}CTR=null;ZH=null;ZC=1;ZD=0}
 function phClean(){stopCam();if(AUD){AUD.pause();AUD=null}clearTimeout(CT);clearInterval(CI);MK='';MP=false}
 function phBack(f){callEnd(f);stopCam();f.classList.remove('app')}
 function callEnd(f){clearTimeout(CT);clearInterval(CI);const c=f.querySelector('.cll');if(c)c.remove()}
 function callStart(f,name){f.querySelector('.apx').insertAdjacentHTML('beforeend',`<div class=cll><div class=av2>♥</div><h2>${esc(name)}</h2><p class=cs>Memanggil…</p><button class=end data-i=ce>✕</button></div>`);try{navigator.vibrate&&navigator.vibrate([200,150,200])}catch(_){}
  CT=setTimeout(()=>{const p=f.querySelector('.cs');if(!p)return;let n=0;p.textContent='Tersambung 00:00';CI=setInterval(()=>{n++;p.textContent='Tersambung '+('0'+(n/60|0)).slice(-2)+':'+('0'+n%60).slice(-2)},1000)},2800)}
-function camStart(f,mode){const v=f.querySelector('.vid'),m=f.querySelector('.cmm');stopCam();
+function zLv(){const out=[];if(ZH){[.5,1,2,3,5,10].forEach(z=>{if(z>=ZH.min-.001&&z<=ZH.max+.001)out.push(z)});if(ZH.min<1&&!out.includes(ZH.min)&&ZH.min>.2)out.unshift(+ZH.min.toFixed(1))}else[1,2,3,5].forEach(z=>out.push(z));return out}
+function zRange(){return ZH?[ZH.min,Math.min(ZH.max,10)]:[1,5]}
+function zSet2(f,z){const r=zRange();z=Math.max(r[0],Math.min(r[1],z));ZC=z;const v=f.querySelector('.vid');if(ZH&&CTR){ZD=0;v.style.setProperty('--z',1);CTR.applyConstraints({advanced:[{zoom:z}]}).catch(()=>{})}else{ZD=z;v.style.setProperty('--z',z)}const sm=f.querySelector('.zmb small');if(sm)sm.textContent=z.toFixed(1)+'×'+(ZH?'':' · digital');f.querySelectorAll('.zlv button[data-z]').forEach(b=>b.classList.toggle('on',Math.abs(+b.dataset.z-z)<.06))}
+function zUI(f){const bar=f.querySelector('.zmb');if(!bar)return;const r=zRange(),lv=zLv();
+ bar.innerHTML=`<div class=zlv>${WD?`<button data-i=zw class="${WD.on?'on':''}">0.5×</button>`:''}${lv.map(z=>`<button data-i=zc data-z=${z} class="${!(WD&&WD.on)&&Math.abs(z-ZC)<.06?'on':''}">${z}×</button>`).join('')}</div><input class=zsl type=range data-i=zs min=${r[0]} max=${r[1]} step=.05 value=${ZC}><small>${ZC.toFixed(1)}×${ZH?'':' · digital'}</small>`}
+function zSet(f,z){const r=zRange();z=Math.max(r[0],Math.min(r[1],z));ZC=z;const v=f.querySelector('.vid');
+ if(ZH&&CTR){ZD=0;v.style.setProperty('--z',1);CTR.applyConstraints({advanced:[{zoom:z}]}).catch(()=>{ZH=null;ZD=1;v.style.setProperty('--z',z)})}
+ else{ZD=z;v.style.setProperty('--z',z)}
+ zUI(f)}
+function zSetup(f,st){CTR=st.getVideoTracks()[0];let cp={};try{cp=CTR.getCapabilities?CTR.getCapabilities():{}}catch(_){}
+ ZH=cp.zoom&&cp.zoom.max>cp.zoom.min?{min:cp.zoom.min,max:cp.zoom.max}:null;ZC=1;ZD=0;
+ if(ZH){try{ZC=Math.max(ZH.min,Math.min(ZH.max,CTR.getSettings().zoom||1))}catch(_){}}
+ const v=f.querySelector('.vid');if(v)v.style.setProperty('--z',1);
+ zUI(f);
+ if(!(ZH&&ZH.min<1)&&navigator.mediaDevices&&navigator.mediaDevices.enumerateDevices&&!f.querySelector('.vid.bk')===false){
+  navigator.mediaDevices.enumerateDevices().then(ds=>{const w=ds.find(d=>d.kind==='videoinput'&&/ultra|0[.,]5|wide/i.test(d.label)&&!/front|user|depan/i.test(d.label));if(w&&f.isConnected&&!WD){WD={id:w.deviceId,on:false};zUI(f)}}).catch(()=>{})}}
+function camStart(f,mode,dev){const v=f.querySelector('.vid'),m=f.querySelector('.cmm');stopCam();
  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){m.textContent='Kamera langsung tidak tersedia di sini. Pakai tombol “kamera bawaan”.';return}
- navigator.mediaDevices.getUserMedia({video:{facingMode:mode}}).then(st=>{if(!v.isConnected){st.getTracks().forEach(t=>t.stop());return}CAM=st;v.srcObject=st;if(m.isConnected)m.remove()}).catch(()=>{if(m.isConnected)m.textContent='Izin kamera ditolak atau tidak tersedia. Pakai tombol “kamera bawaan” di atas.'})}
+ navigator.mediaDevices.getUserMedia({video:dev?{deviceId:{exact:dev}}:{facingMode:mode}}).then(st=>{if(!v.isConnected){st.getTracks().forEach(t=>t.stop());return}CAM=st;v.srcObject=st;if(m.isConnected)m.remove();const w=WD;zSetup(f,st);if(w&&dev===w.id){WD=w;w.on=true;ZC=1;zUI(f)}else if(w&&mode==='environment')WD=w}).catch(()=>{if(m.isConnected)m.textContent='Izin kamera ditolak atau tidak tersedia. Pakai tombol “kamera bawaan” di atas.'})}
 function musUI(f){const x=f.querySelector('.ms2');if(!x)return;x.querySelectorAll('.disc,.eq').forEach(e=>e.classList.toggle('pl',MP));x.querySelector('.pp').textContent=MP?'⏸':'▶';x.querySelectorAll('.tr').forEach(b=>b.classList.toggle('on',b.dataset.k===MK&&!AUD));x.querySelector('.np').textContent=AUD?(f.dataset.tn||'Lagu dari ponsel'):(MK?TR.find(t=>t[0]===MK)[1]:'Pilih lagu')}
 function playTr(f,key){if(AUD){AUD.pause();AUD=null}MK=key;mi=0;MP=true;music(1);musUI(f)}
-function webGo2(f,u){const i=f.querySelector('.url');u=normU(u||i.value);if(!u)return;i.value=u;f.querySelector('.fr').src=u;f.querySelector('.ext').href=u}
-ST.addEventListener('input',e=>{const t=e.target,k=t.dataset&&t.dataset.i;if(k==='sv'){VOL=t.value/100;if(AUD)AUD.volume=VOL}else if(k==='sb')t.closest('.fin').style.filter='brightness('+t.value/100+')'});
+function webGo2(f,u){const i=f.querySelector('.url');u=normU(u||i.value);if(!u)return;i.value=u;const n=f.querySelector('.wnote'),fr=f.querySelector('.fr');f.querySelector('.ext').href=u;
+ if(BLK.test(u)){fr.src='about:blank';n.hidden=false;n.textContent='Situs ini nggak mengizinkan dibuka di dalam halaman, jadi dibuka di tab baru.';try{window.open(u,'_blank','noopener,noreferrer')}catch(_){}return}
+ n.hidden=true;fr.src=u}
+ST.addEventListener('input',e=>{const t=e.target,k=t.dataset&&t.dataset.i;if(k==='sv'){VOL=t.value/100;if(AUD)AUD.volume=VOL}else if(k==='sb')t.closest('.fin').style.filter='brightness('+t.value/100+')';else if(k==='zs'){const f=t.closest('.fin');ZC=+t.value;const bt=f.querySelector('.zmb small');zSet2(f,ZC)}});
 ST.addEventListener('change',e=>{const t=e.target,f=t.closest&&t.closest('.fin'),k=t.dataset&&t.dataset.i;if(!f)return;
  if(k==='sm'){muted=t.checked;if(AUD)AUD.muted=muted;if(muted)music(0);else if(MP&&!AUD)music(1)}
  else if(k==='sl')f.classList.toggle('lgt',t.checked);
@@ -220,8 +242,10 @@ function ix(el,e){const k=el.dataset.i,f=el.closest('.fin');
  else if(k==='dd'){const n=f.querySelector('.nm');n.dataset.v=n.dataset.v.slice(0,-1);n.innerHTML=n.dataset.v||'&nbsp;'}
  else if(k==='cl'){const n=f.querySelector('.nm').dataset.v;if(el.dataset.c)callStart(f,who());else if(n)callStart(f,n)}
  else if(k==='ce')callEnd(f);
- else if(k==='sh'){const v=f.querySelector('.vid');if(!v||!v.videoWidth)return;const c=document.createElement('canvas');c.width=v.videoWidth;c.height=v.videoHeight;const x=c.getContext('2d');if(!v.classList.contains('bk')){x.translate(c.width,0);x.scale(-1,1)}x.drawImage(v,0,0);const src=c.toDataURL('image/jpeg',.8);shots.push(src);f.querySelector('.tn').innerHTML=`<img src="${src}">`;const fl=f.querySelector('.fl2x');fl.classList.remove('go');void fl.offsetWidth;fl.classList.add('go');try{navigator.vibrate&&navigator.vibrate(30)}catch(_){}}
- else if(k==='fp'){const v=f.querySelector('.vid');v.classList.toggle('bk');camStart(f,v.classList.contains('bk')?'environment':'user')}
+ else if(k==='sh'){const v=f.querySelector('.vid');if(!v||!v.videoWidth)return;const c=document.createElement('canvas');c.width=v.videoWidth;c.height=v.videoHeight;const x=c.getContext('2d');if(!v.classList.contains('bk')){x.translate(c.width,0);x.scale(-1,1)}if(ZD>1){const sw=c.width/ZD,sh=c.height/ZD;x.drawImage(v,(c.width-sw)/2,(c.height-sh)/2,sw,sh,0,0,c.width,c.height)}else x.drawImage(v,0,0);const src=c.toDataURL('image/jpeg',.8);shots.push(src);f.querySelector('.tn').innerHTML=`<img src="${src}">`;const fl=f.querySelector('.fl2x');fl.classList.remove('go');void fl.offsetWidth;fl.classList.add('go');try{navigator.vibrate&&navigator.vibrate(30)}catch(_){}}
+ else if(k==='fp'){const v=f.querySelector('.vid');v.classList.toggle('bk');WD=null;camStart(f,v.classList.contains('bk')?'environment':'user')}
+ else if(k==='zc')zSet(f,+el.dataset.z)
+ else if(k==='zw'){if(WD){const o=WD.on;if(o)WD.on=false;camStartW(f,o?null:WD.id)}}
  else if(k==='tr')playTr(f,el.dataset.k);
  else if(k==='pp'){if(MP){music(0);if(AUD)AUD.pause();MP=false}else{if(AUD)AUD.play();else{MK=MK||'love';mi=0;music(1)}MP=true}musUI(f)}
  else if(k==='pv'||k==='nx'){const ks=TR.map(t=>t[0]);playTr(f,ks[(ks.indexOf(MK)+(k==='nx'?1:ks.length-1))%ks.length])}
@@ -272,6 +296,10 @@ const dgEnd=e=>{if(dg){const d=dg;dg=null;if(d.m){dgd=1;setTimeout(()=>dgd=0,80)
  if(S.layout==='story'){i=dx<0?Math.min(SL.length-1,i+1):Math.max(0,i-1);show()}
  else if(S.layout==='card'){fd=dx<0?-1:1;ST.click();fd=1}else return;
  swd=1;setTimeout(()=>swd=0,80)};
+let PD=0,PZ=1;const tdist=t=>Math.hypot(t[0].clientX-t[1].clientX,t[0].clientY-t[1].clientY);
+ST.addEventListener('touchstart',e=>{if(e.touches.length===2&&e.target.closest&&e.target.closest('.cm2')){PD=tdist(e.touches);PZ=ZC}},{passive:true});
+ST.addEventListener('touchmove',e=>{if(PD&&e.touches.length===2){const f=e.target.closest('.fin');if(f){e.preventDefault();zSet2(f,PZ*tdist(e.touches)/PD)}}},{passive:false});
+ST.addEventListener('touchend',()=>{PD=0});
 ST.addEventListener('pointerup',dgEnd);ST.addEventListener('pointercancel',dgEnd);
 function fit(){const p=opt.pad?opt.pad():0,w=wrap.clientWidth-p,h=wrap.clientHeight-p,x=Math.max(60,Math.min(w,h*9/16));ST.style.width=x+'px';ST.style.height=(x*16/9)+'px'}
 if(window.ResizeObserver)new ResizeObserver(fit).observe(wrap);else window.addEventListener('resize',fit);
